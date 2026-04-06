@@ -1,0 +1,25 @@
+export type Status =
+  | "Bookmarked"
+  | "Applied"
+  | "Phone Screen"
+  | "Technical"
+  | "Final"
+  | "Offer"
+  | "Rejected";
+
+export interface Job {
+  id: number;
+  company: string;
+  role: string;
+  status: Status;
+  dateApplied: string;
+  nextAction: string;
+  notes: string;
+  url: string;
+}
+
+export interface StatusConfig {
+  color: string;
+  bg: string;
+  label: string;
+}

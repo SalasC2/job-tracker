@@ -1,0 +1,102 @@
+.job-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.job-modal {
+  background: #111318;
+  border: 1px solid #2a2d35;
+  border-radius: 12px;
+  padding: 28px;
+  width: 480px;
+  max-width: 90vw;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+}
+
+.job-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 22px;
+}
+
+.job-modal-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.job-modal-close {
+  background: none;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.job-modal-field {
+  margin-bottom: 14px;
+}
+
+.job-modal-label {
+  display: block;
+  font-size: 11px;
+  color: #6b7280;
+  margin-bottom: 5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.job-modal-input,
+.job-modal-textarea {
+  width: 100%;
+  background: #0d0f13;
+  border: 1px solid #2a2d35;
+  border-radius: 6px;
+  padding: 9px 12px;
+  color: #f1f5f9;
+  font-size: 13px;
+  outline: none;
+  box-sizing: border-box;
+  font-family: "JetBrains Mono", monospace;
+}
+
+.job-modal-textarea {
+  resize: vertical;
+}
+
+.job-modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.job-modal-btn {
+  background: none;
+  border: 1px solid #2a2d35;
+  color: #9ca3af;
+  padding: 9px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: "JetBrains Mono", monospace;
+}
+
+.job-modal-btn-primary {
+  background: #3b82f6;
+  border: none;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.job-modal-btn-primary:hover {
+  background: #2563eb;
+}

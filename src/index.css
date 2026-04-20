@@ -25,6 +25,21 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
+  --badge-green: #22c55e;
+  --badge-green-bg: rgba(34, 197, 94, 0.15);
+
+  --badge-blue: #38bdf8;
+  --badge-blue-bg: rgba(56, 189, 248, 0.15);
+
+  --badge-yellow: #eab308;
+  --badge-yellow-bg: rgba(234, 179, 8, 0.15);
+
+  --badge-gray: #6b7280;
+  --badge-gray-bg: rgba(107, 114, 128, 0.15);
+
+  --badge-red: #ef4444;
+  --badge-red-bg: rgba(239, 68, 68, 0.15);
+
   @media (max-width: 1024px) {
     font-size: 16px;
   }

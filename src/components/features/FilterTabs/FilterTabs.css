@@ -1,0 +1,26 @@
+.filter-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 20px;
+  flex-wrap: "wrap";
+}
+
+.filter-tab {
+  background: transparent;
+  border: 1px solid #2a2d35;
+  color: #6b7280;
+  padding: 5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-family: "JetBrains Mono", monospace;
+  transition: all 0.15s;
+}
+
+.filter-tab:hover {
+  border-color: #3b3f4a;
+  color: #f1f5f9;
+}

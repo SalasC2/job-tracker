@@ -32,9 +32,11 @@ export function JobCard({ job, onEdit, onRemove }: JobCardProps) {
               <span>{job.dateApplied}</span>
             </div>
           )}
-          {job.notes && (
-            <div className="job-notes">{job.notes}</div>
-          )}
+          <div className="job-card-notes">
+            {job.notes && (
+              <div className="job-notes">{job.notes}</div>
+            )}
+          </div>
         </div>
       </div>
 

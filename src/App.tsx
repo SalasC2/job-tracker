@@ -12,7 +12,7 @@ import { JobCard } from "./components/features/JobCard";
 import { JobModal } from "./components/features/JobModal";
 
 import { Landing } from "./components/layout/Landing";
-import { Navbar } from "./components/layout/Navbar/Navbar";
+import { Navbar } from "./components/layout/Navbar";
 
 import type { Job } from "./types";
 

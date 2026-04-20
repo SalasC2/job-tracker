@@ -8,7 +8,7 @@ export type Status =
   | "Rejected";
 
 export interface Job {
-  id: number;
+  id: string;
   company: string;
   role: string;
   status: Status;

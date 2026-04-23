@@ -3,7 +3,7 @@ import "./Navbar.css";
 import { signInWithGoogle } from '../../../utils/supabase';
 import { signOut } from '../../../utils/supabase';
 import type { User } from "@supabase/supabase-js";
-// import algovizIcon from '../../../assets/algoviz.png';
+import jobTrackerIcon from '../../../assets/job-tracker-logo.png';
 
 import { Button } from "../../ ui/Button";
 
@@ -18,6 +18,7 @@ export const Navbar = ({ user }: NavbarProps) => {
     return (
         <div className="navbar">
             <div className="navbar-left">
+                <img className="jobtracker-logo" src={jobTrackerIcon} />
                 <span className="navbar-brand">Job Tracker</span>
                 <span className="navbar-subtitle">Series A/B · React/JS · SF or Remote</span>
             </div>

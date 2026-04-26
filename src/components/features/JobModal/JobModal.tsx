@@ -19,6 +19,7 @@ const EMPTY_FORM: JobFormData = {
   nextAction: "",
   notes: "",
   url: "",
+  prepUrl: "",
 };
 
 const FIELDS: {
@@ -29,6 +30,7 @@ const FIELDS: {
   { label: "Company", key: "company", placeholder: "e.g. Cursor" },
   { label: "Role", key: "role", placeholder: "e.g. Frontend Engineer" },
   { label: "URL", key: "url", placeholder: "Job posting link" },
+  { label: "Prep URL", key: "prepUrl", placeholder: "Job Prep Document"},
   { label: "Date Applied", key: "dateApplied", placeholder: "YYYY-MM-DD" },
   { label: "Next Action", key: "nextAction", placeholder: "e.g. Send follow-up" },
 ];
@@ -44,6 +46,7 @@ export function JobModal({ job, onSave, onClose }: JobModalProps) {
           nextAction: job.nextAction,
           notes: job.notes,
           url: job.url,
+          prepUrl: job.prepUrl,
         }
       : EMPTY_FORM
   );
@@ -103,7 +106,7 @@ export function JobModal({ job, onSave, onClose }: JobModalProps) {
             value={form.notes}
             onChange={(e) => setField("notes", e.target.value)}
             placeholder="Stack, culture, connections, etc."
-            rows={3}
+            rows={6}
           />
         </div>
 

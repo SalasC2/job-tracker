@@ -11,6 +11,7 @@ const toSnakeCase = (form: Omit<Job, "id">) => ({
   next_action: form.nextAction,
   notes: form.notes,
   url: form.url,
+  prep_doc_url: form.prepUrl,
 });
 
 const fromSnakeCase = (row: any): Job => ({
@@ -22,6 +23,7 @@ const fromSnakeCase = (row: any): Job => ({
   nextAction: row.next_action ?? "",
   notes: row.notes ?? "",
   url: row.url ?? "",
+  prepUrl: row.prep_doc_url ?? "",
 });
 
 export function useJobs() {

@@ -22,6 +22,7 @@ export type Database = {
           id: string
           next_action: string | null
           notes: string | null
+          prep_doc_url: string | null
           role: string
           status: string
           updated_at: string | null
@@ -35,6 +36,7 @@ export type Database = {
           id?: string
           next_action?: string | null
           notes?: string | null
+          prep_doc_url?: string | null
           role: string
           status?: string
           updated_at?: string | null
@@ -48,6 +50,7 @@ export type Database = {
           id?: string
           next_action?: string | null
           notes?: string | null
+          prep_doc_url?: string | null
           role?: string
           status?: string
           updated_at?: string | null

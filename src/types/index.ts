@@ -16,6 +16,7 @@ export interface Job {
   nextAction: string;
   notes: string;
   url: string;
+  prepUrl: string;
 }
 
 export interface StatusConfig {

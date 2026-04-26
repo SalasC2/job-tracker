@@ -10,13 +10,15 @@
 }
 
 .job-modal {
-  background: #111318;
-  border: 1px solid #2a2d35;
+  background: var(--code-bg);
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 28px;
   width: 480px;
   max-width: 90vw;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow);
 }
 
 .job-modal-header {
@@ -30,13 +32,13 @@
   margin: 0;
   font-size: 16px;
   font-weight: 700;
-  color: #f1f5f9;
+  color: var(--text-h);
 }
 
 .job-modal-close {
   background: none;
   border: none;
-  color: #6b7280;
+  color: var(--text);
   cursor: pointer;
   font-size: 18px;
 }
@@ -48,7 +50,7 @@
 .job-modal-label {
   display: block;
   font-size: 11px;
-  color: #6b7280;
+  color: var(--text);
   margin-bottom: 5px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -57,11 +59,11 @@
 .job-modal-input,
 .job-modal-textarea {
   width: 100%;
-  background: #0d0f13;
-  border: 1px solid #2a2d35;
+  background: var(--bg);
+  border: 1px solid var(--border);
   border-radius: 6px;
   padding: 9px 12px;
-  color: #f1f5f9;
+  color: var(--text-h);
   font-size: 13px;
   outline: none;
   box-sizing: border-box;
@@ -70,6 +72,8 @@
 
 .job-modal-textarea {
   resize: vertical;
+  min-height: 160px;
+  max-height: 400px;
 }
 
 .job-modal-actions {
@@ -81,8 +85,8 @@
 
 .job-modal-btn {
   background: none;
-  border: 1px solid #2a2d35;
-  color: #9ca3af;
+  border: 1px solid var(--border);
+  color: var(--text);
   padding: 9px 18px;
   border-radius: 6px;
   cursor: pointer;

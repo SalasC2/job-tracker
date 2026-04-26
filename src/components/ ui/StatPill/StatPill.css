@@ -1,6 +1,6 @@
 .stat-pill {
-  background: #111318;
-  border: 1px solid #2a2d35;
+  background: var(--code-bg);
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 10px 16px;
   text-align: center;
@@ -11,11 +11,12 @@
   font-size: 20px;
   font-weight: 700;
   font-family: "JetBrains Mono", monospace;
+  color: var(--text-h);
 }
 
 .stat-pill-label {
   font-size: 10px;
-  color: #6b7280;
+  color: var(--text);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin-top: 2px;

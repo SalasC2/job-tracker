@@ -19,25 +19,39 @@ export function JobCard({ job, onEdit, onRemove }: JobCardProps) {
           <StatusBadge status={job.status} />
         </div>
 
-        <div className="job-card-meta">
-          {job.nextAction && (
-            <div className="job-meta">
-              <span className="job-meta-label">Next → </span>
-              <span className="job-meta-value">{job.nextAction}</span>
-            </div>
-          )}
-          {job.dateApplied && (
-            <div className="job-meta">
-              <span className="job-meta-label">Applied: </span>
-              <span>{job.dateApplied}</span>
-            </div>
-          )}
-          <div className="job-card-notes">
-            {job.notes && (
-              <div className="job-notes">{job.notes}</div>
-            )}
+        {job.nextAction && job.status !== "Rejected" && (
+          <div className="job-meta">
+            <span className="job-meta-label">Next → </span>
+            <span className="job-meta-value">{job.nextAction}</span>
           </div>
+        )}
+
+        {job.prepUrl && (
+          <div className="job-meta">
+            <span className="job-meta-label">Prep Work: </span>
+            <a
+              href={job.prepUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="job-link job-prep-link"
+            >
+              Open Doc ↗
+            </a>
+          </div>
+        )}
+
+        {job.dateApplied && (
+          <div className="job-meta">
+            <span className="job-date"> Applied: {job.dateApplied}</span>
+          </div>
+        )}
+
+        <div className="job-card-notes">
+          {job.notes && (
+            <div className="job-notes"> Notes: {job.notes}</div>
+          )}
         </div>
+
       </div>
 
       <div className="job-card-actions">
@@ -61,6 +75,73 @@ export function JobCard({ job, onEdit, onRemove }: JobCardProps) {
           ×
         </button>
       </div>
+
+
+
+      {/* old way below */}
+
+
+      {/* <div className="job-meta">
+          {job.prepUrl && (
+            <div className="job-prep-link">
+              <span className="job-meta-label">Prep Work: </span>
+              <a
+                href={job.prepUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="job-link job-prep-link"
+              >
+                Open Doc ↗
+              </a>
+            </div>
+          )}
+          {job.nextAction && (
+            <div className="job-meta">
+              <span className="job-meta-label">Next → </span>
+              <span className="job-meta-value">{job.nextAction}</span>
+            </div>
+          )}
+          {job.dateApplied && (
+            <div className="job-meta">
+              <span className="job-meta-label">Applied: </span>
+              <span>{job.dateApplied}</span>
+            </div>
+          )}
+          <div className="job-card-notes">
+            {job.notes && (
+              <div className="job-notes">{job.notes}</div>
+            )}
+          </div>
+        </div>
+
+
+      </div>
+
+      <div className="job-card-actions">
+        {job.url && (
+          <a
+            href={job.url}
+            target="_blank"
+            rel="noreferrer"
+            className="job-link"
+          >
+            ↗
+          </a>
+        )}
+        <button onClick={() => onEdit(job)} className="job-btn">
+          Edit
+        </button>
+        <button
+          onClick={() => onRemove(job.id)}
+          className="job-btn job-btn-danger"
+        >
+          ×
+        </button>
+      </div> */}
+
+
+
+
     </div>
   );
 }

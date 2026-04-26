@@ -7,8 +7,8 @@
 
 .filter-tab {
   background: transparent;
-  border: 1px solid #2a2d35;
-  color: #6b7280;
+  border: 1px solid var(--border);
+  color: var(--text);
   padding: 5px 12px;
   border-radius: 4px;
   cursor: pointer;
@@ -21,6 +21,6 @@
 }
 
 .filter-tab:hover {
-  border-color: #3b3f4a;
-  color: #f1f5f9;
+  border-color: var(--accent-border);
+  color: var(--text-h);
 }

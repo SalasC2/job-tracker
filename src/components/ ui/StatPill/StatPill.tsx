@@ -11,7 +11,7 @@ export function StatPill({ label, value, color }: StatPillProps) {
     <div className="stat-pill">
       <div
         className="stat-pill-value"
-        style={{ color: color || "#F1F5F9" }}
+        style={{ color: color || "var(--text-h)" }}
       >
         {value}
       </div>

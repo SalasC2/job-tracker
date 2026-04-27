@@ -2,7 +2,9 @@
   display: flex;
   gap: 6px;
   margin-bottom: 20px;
-  flex-wrap: "wrap";
+  flex-wrap: "nowrap";
+  overflow-x: auto;
+  padding-bottom: 4px;
 }
 
 .filter-tab {
@@ -23,4 +25,10 @@
 .filter-tab:hover {
   border-color: var(--accent-border);
   color: var(--text-h);
+}
+
+@media (max-width: 640px) {
+  .filter-tab-empty {
+    display: none;
+  }
 }

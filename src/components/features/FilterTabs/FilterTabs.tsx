@@ -24,7 +24,7 @@ export function FilterTabs({ filter, setFilter, jobs }: FilterTabsProps) {
           <button
             key={s}
             onClick={() => setFilter(s)}
-            className={`filter-tab ${active ? "active" : ""}`}
+            className={`filter-tab ${count === 0 ? "filter-tab-empty" : ""} ${active ? "active" : ""}`}
             style={
               active
                 ? {

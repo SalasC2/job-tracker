@@ -12,7 +12,7 @@
     z-index: 10;
 }
 
-.jobtracker-logo { 
+.jobtracker-logo {
     height: 128px;
     width: auto;
 }
@@ -43,9 +43,9 @@
 }
 
 .navbar-subtitle {
-  font-size: 11px;
-  color: var(--text);
-  font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text);
+    font-family: var(--mono);
 }
 
 p {
@@ -60,4 +60,18 @@ p {
     height: 32px;
     border-radius: 50%;
     border: 2px solid var(--border);
+}
+
+@media (max-width: 640px) {
+    .navbar-subtitle {
+        display: none;
+    }
+
+    .jobtracker-logo {
+        height: 48px;
+    }
+
+    .navbar-brand {
+        font-size: 18px;
+    }
 }

@@ -24,3 +24,18 @@ export interface StatusConfig {
   bg: string;
   label: string;
 }
+
+export interface Contact {
+  id: string;
+  userId: string;
+  name: string;
+  company: string;
+  type: 'Recruiter' | 'Referral' | 'Hiring Manager';
+  email: string;
+  linkedin: string;
+  lastContact: string;
+  nextFollowup: string;
+  notes: string;
+  createdAt: string;
+  updatedAt: string;
+}

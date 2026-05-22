@@ -1,5 +1,5 @@
 import "./JobCard.css";
-import { StatusBadge } from "../../ ui/StatusBadge";
+import { StatusBadge } from "../../ui/StatusBadge";
 import type { Job } from "../../../types";
 
 interface JobCardProps {

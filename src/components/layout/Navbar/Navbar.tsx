@@ -5,7 +5,7 @@ import { signOut } from '../../../utils/supabase';
 import type { User } from "@supabase/supabase-js";
 import jobTrackerIcon from '../../../assets/job-tracker-logo.png';
 
-import { Button } from "../../ ui/Button";
+import { Button } from "../../ui/Button";
 
 type NavbarProps = {
     user: User | null;
@@ -28,9 +28,7 @@ export const Navbar = ({ user }: NavbarProps) => {
                         <img src={userAvatar} alt="user-avatar" className="user-avatar" />
                         <Button variant="danger" onClick={signOut}>Sign out</Button>
                     </>
-                ) : (
-                    <Button onClick={signInWithGoogle}>Sign in with Google</Button>
-                )}
+                ) : null}
             </div>
         </div>
     )

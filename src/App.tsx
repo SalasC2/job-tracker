@@ -5,7 +5,7 @@ import { useAuthUser } from "./hooks/useAuthUser";
 
 import { signInWithGoogle } from "./utils/supabase";
 
-import { StatPill } from "./components/ ui/StatPill";
+import { StatPill } from "./components/ui/StatPill";
 
 import { FilterTabs } from "./components/features/FilterTabs";
 import { JobCard } from "./components/features/JobCard";

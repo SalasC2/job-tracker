@@ -93,5 +93,5 @@ export function useJobs() {
     offers: jobs.filter((j) => j.status === "Offer").length,
   };
 
-  return { jobs, addJob, updateJob, removeJob, stats };
+  return { jobs, addJob, updateJob, removeJob };
 }

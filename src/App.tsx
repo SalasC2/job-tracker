@@ -2,8 +2,11 @@ import { useState } from "react";
 
 import { useJobs } from "./hooks/useJobs";
 import { useAuthUser } from "./hooks/useAuthUser";
+import { useContacts } from "./hooks/useContacts";
 
 import { signInWithGoogle } from "./utils/supabase";
+
+import { filterJobs } from "./utils/jobs";
 
 import { StatPill } from "./components/ui/StatPill";
 
@@ -14,14 +17,17 @@ import { JobModal } from "./components/features/JobModal";
 import { Landing } from "./components/layout/Landing";
 import { Navbar } from "./components/layout/Navbar";
 
-import type { Job } from "./types";
+import type { Job, Contact } from "./types";
 
 import { INITIAL_JOBS } from "./data/initialJobs";
 
 import "./App.css";
 
 export default function App() {
-  const { jobs, addJob, updateJob, removeJob, stats } = useJobs();
+  const { jobs, addJob, updateJob, removeJob } = useJobs();
+  const { contacts, addContact, updateContact, removeContact } = useContacts();
+  const [view, setView] = useState<"jobs" | "contacts">("jobs");
+  const [contactModal, setContactModal] = useState<null | "add" | Contact>(null);
   const [isDemoMode, setIsDemoMode] = useState(false);
   const [filter, setFilter] = useState("All");
   const [search, setSearch] = useState("");
@@ -40,37 +46,20 @@ export default function App() {
     setModal(null);
   };
 
-  const STATUS_PRIORITY: Record<string, number> = {
-    "Final": 0,
-    "Technical": 1,
-    "Phone Screen": 2,
-    "Applied": 3,
-    "Bookmarked": 4,
-    "Offer": 5,
-    "Rejected": 6,
-  };
+  const filteredJobs = filterJobs(activeJobs, filter, search)
 
-  const filteredJobs = activeJobs
-    .filter((j) => {
-      const matchFilter = filter === "All" || j.status === filter;
-      const matchSearch =
-        !search ||
-        j.company.toLowerCase().includes(search.toLowerCase()) ||
-        j.role.toLowerCase().includes(search.toLowerCase());
-      return matchFilter && matchSearch;
-    })
-    .sort((a, b) => {
-      const priorityDiff = (STATUS_PRIORITY[a.status] ?? 99) - (STATUS_PRIORITY[b.status] ?? 99);
-      if (priorityDiff !== 0) return priorityDiff;
-      // Secondary sort: most recent date first
-      return (b.dateApplied ?? "").localeCompare(a.dateApplied ?? "");
-    });
-
-  const activeStats = {
+  const jobStats = {
     total: activeJobs.length,
     applied: activeJobs.filter((j) => !["Bookmarked", "Rejected"].includes(j.status)).length,
     active: activeJobs.filter((j) => ["Phone Screen", "Technical", "Final"].includes(j.status)).length,
     offers: activeJobs.filter((j) => j.status === "Offer").length,
+  };
+
+  const contactStats = {
+    total: contacts.length,
+    recruiters: contacts.filter(c => c.type === "Recruiter").length,
+    followUpToday: contacts.filter(c => c.nextFollowup === new Date().toISOString().split("T")[0]).length,
+    hiringManagers: contacts.filter(c => c.type === "Hiring Manager").length,
   };
 
   return (
@@ -89,53 +78,94 @@ export default function App() {
               to track your own applications
             </div>
           )}
-          <div className="stats-row">
-            <StatPill label="Total" value={activeStats.total} />
-            <StatPill label="Applied" value={activeStats.applied} color="#3B82F6" />
-            <StatPill label="Active" value={stats.active} color="#F59E0B" />
-            <StatPill label="Offers" value={activeStats.offers} color="#22C55E" />
-          </div>
-
-          <div className="search-row">
-            <input
-              className="search-input"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search company or role..."
-            />
+          <div className="view-toggle">
             <button
-              className="add-job-btn"
-              onClick={() => setModal("add")}
+              className={`view-btn ${view === "jobs" ? "active" : ""}`}
+              onClick={() => setView("jobs")}
             >
-              + Add Job
+              Jobs
+            </button>
+            <button
+              className={`view-btn ${view === "contacts" ? "active" : ""}`}
+              onClick={() => setView("contacts")}
+            >
+              Contacts
             </button>
           </div>
+          <div className="stats-row">
+            {view === "jobs" && (
+              <>
+                <StatPill label="Total" value={jobStats.total} />
+                <StatPill label="Applied" value={jobStats.applied} color="#3B82F6" />
+                <StatPill label="Active" value={jobStats.active} color="#F59E0B" />
+                <StatPill label="Offers" value={jobStats.offers} color="#22C55E" />
+              </>
+            )}
 
-          <FilterTabs filter={filter} setFilter={setFilter} jobs={activeJobs} />
-
-          <div className="job-list">
-            {filteredJobs.length === 0 ? (
-              <div className="empty-state">
-                No jobs found. Add one above.
-              </div>
-            ) : (
-              filteredJobs.map((job) => (
-                <JobCard
-                  key={job.id}
-                  job={job}
-                  onEdit={setModal}
-                  onRemove={removeJob}
-                />
-              ))
+            {view === "contacts" && (
+              <>
+                <StatPill label="Total" value={contactStats.total} />
+                <StatPill label="Recruiters" value={contactStats.recruiters} color="#3B82F6" />
+                <StatPill label="Follow Up Today" value={contactStats.followUpToday} color="#F59E0B" />
+                <StatPill label="Hiring Managers" value={contactStats.hiringManagers} color="#22C55E" />
+              </>
             )}
           </div>
 
-          {modal && (
-            <JobModal
-              job={modal === "add" ? null : (modal as Job)}
-              onSave={handleSave}
-              onClose={() => setModal(null)}
-            />
+          {view === "contacts" && (
+            <div className="job-list">
+              {contacts.length === 0 ? (
+                <div className="empty-state">No contacts yet. Add one above.</div>
+              ) : (
+                contacts.map(c => <div key={c.id}>{c.name}</div>)
+              )}
+            </div>
+          )}
+
+          {view === "jobs" && (
+            <>
+              <div className="search-row">
+                <input
+                  className="search-input"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Search company or role..."
+                />
+                <button
+                  className="add-job-btn"
+                  onClick={() => setModal("add")}
+                >
+                  + Add Job
+                </button>
+              </div>
+
+              <FilterTabs filter={filter} setFilter={setFilter} jobs={activeJobs} />
+
+              <div className="job-list">
+                {filteredJobs.length === 0 ? (
+                  <div className="empty-state">
+                    No jobs found. Add one above.
+                  </div>
+                ) : (
+                  filteredJobs.map((job) => (
+                    <JobCard
+                      key={job.id}
+                      job={job}
+                      onEdit={setModal}
+                      onRemove={removeJob}
+                    />
+                  ))
+                )}
+              </div>
+
+              {modal && (
+                <JobModal
+                  job={modal === "add" ? null : (modal as Job)}
+                  onSave={handleSave}
+                  onClose={() => setModal(null)}
+                />
+              )}
+            </>
           )}
 
         </div>

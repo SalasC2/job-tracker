@@ -1,92 +1,99 @@
-import { useState, useEffect } from "react";
-import { supabase } from "../utils/supabase";
+import { useState, useEffect } from 'react';
 import { useAuthUser } from "./useAuthUser";
-import type { Contact } from "../types";
+import { supabase } from '../utils/supabase';
+import type { Contact } from '../types/index';
 
+type DbContact = {
+  id: string;
+  user_id: string;
+  name: string;
+  company: string;
+  type: string;
+  email: string;
+  linkedin: string;
+  last_contact: string;
+  next_followup: string;
+  notes: string;
+  created_at: string;
+  updated_at: string;
+};
 
-const toSnakeCase = (row: any): any => ({
-    company: row.company,
-    type: row.type,
-    email: row.email,
-    linkedin: row.linkedin,
-    last_contact: row.lastContact,
-    next_followup: row.next_follow_up,
-    notes: row.notes,
-})
-
-const fromSnakeCase = (row: any): any => ({
+function fromSnakeCase(row: DbContact): Contact {
+  return {
     id: row.id,
     name: row.name,
     company: row.company,
-    type: row.type,
-    email: row.email,
-    linkedin: row.linkedin,
-    lastContact: row.last_contact,
-    nextFollowup: row.next_followup,
-    notes: row.notes,
-})
+    type: row.type as Contact['type'],
+    email: row.email ?? '',
+    linkedin: row.linkedin ?? '',
+    lastContact: row.last_contact ?? '',
+    nextFollowup: row.next_followup ?? '',
+    notes: row.notes ?? '',
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  };
+}
+
+function toSnakeCase(contact: Partial<Contact>) {
+  const isValidDate = (s?: string) => !!s && /^\d{4}-\d{2}-\d{2}$/.test(s);
+  return {
+    name: contact.name,
+    company: contact.company,
+    type: contact.type,
+    email: contact.email,
+    linkedin: contact.linkedin,
+    last_contact: isValidDate(contact.lastContact) ? contact.lastContact : null,
+    next_followup: isValidDate(contact.nextFollowup) ? contact.nextFollowup : null,
+    notes: contact.notes,
+  };
+}
 
 export function useContacts() {
-    const user = useAuthUser();
-    const [contacts, setContacts] = useState<Contact[]>([]);
+  const user = useAuthUser();
+  const [contacts, setContacts] = useState<Contact[]>([]);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        if (!user) return;
+  useEffect(() => {
+    if (!user) return;
+    fetchContacts();
+  }, [user]);
 
-        const fetchContacts = async () => {
-            const { data, error } = await supabase
-                .from("contacts")
-                .select("*")
-                .eq("user_id", user.id)
-                .order("created_at", { ascending: false });
-            if (error) console.log(error);
-            else setContacts(data.map(fromSnakeCase));
-        };
+  async function fetchContacts() {
+    setLoading(true);
+    const { data, error } = await supabase
+      .from('contacts')
+      .select('*')
+      .order('next_followup', { ascending: true, nullsFirst: false });
 
-        fetchContacts();
-    }, [user]);
+    if (!error && data) setContacts(data.map(fromSnakeCase));
+    setLoading(false);
+  }
 
-    const addContact = async (form: Omit<Contact, "id">) => {
-        if (!user) return;
+  async function addContact(contact: Omit<Contact, 'id' | 'userId' | 'createdAt' | 'updatedAt'>) {
+    if (!user) return;
 
-        const { data: newContact, error } = await supabase
-            .from("contacts")
-            .insert([{ ...toSnakeCase(form), user_id: user.id }])
-            .select()
-            .single()
-        if (error) console.log(error);
-        else setContacts((prev => [fromSnakeCase(newContact), ...prev]))
-    };
+    const { error } = await supabase
+      .from('contacts')
+      .insert({ ...toSnakeCase(contact), user_id: user.id });
+    if (!error) fetchContacts();
+  }
 
-    const updateContact = async (id: string, form: Omit<Contact, "id">) => {
-        if (!user) return;
-        const { error } = await supabase
-            .from("contacts")
-            .update(toSnakeCase(form))
-            .eq("id", id)
-            .eq("user_id", user.id);
-        if (error) console.log(error);
-        else setContacts(prev => prev.map(c => c.id === id ? { ...c, ...form } : c));
-    };
+  async function updateContact(id: string, updates: Partial<Contact>) {
+    if (!user) return;
 
-    const removeContact = async (id: string) => {
-        if (!user) return;
+    const { error } = await supabase
+      .from('contacts')
+      .update(toSnakeCase(updates))
+      .eq('id', id);
+    if (!error) fetchContacts();
+  }
 
-        const { error } = await supabase
-            .from("contacts")
-            .delete()
-            .eq("id", id)
-            .eq("user_id", user.id);
+  async function removeContact(id: string) {
+    if (!user) return;
 
-        if (error) console.log(error);
-        else setContacts((prev) => prev.filter((c) => c.id !== id));
-    }
+    const { error } = await supabase.from('contacts').delete().eq('id', id);
+    if (!error) fetchContacts();
+  }
 
-    const stats = {
-        total: contacts.length,
-        recruiters: contacts.filter(c => c.type === "Recruiter").length,
-        followedUpToday: contacts.filter(c => c.nextFollowup === new Date().toISOString().split("T")[0]).length,
-    };
-
-    return { contacts, addContact, updateContact, removeContact };
-};
+  return { contacts, loading, addContact, updateContact, removeContact };
+}

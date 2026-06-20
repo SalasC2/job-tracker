@@ -10,6 +10,9 @@ import { filterJobs } from "./utils/jobs";
 
 import { StatPill } from "./components/ui/StatPill";
 
+import { ContactCard } from "./components/features/ContactCard";
+import { ContactModal } from "./components/features/ContactModal/ContactModal";
+
 import { FilterTabs } from "./components/features/FilterTabs";
 import { JobCard } from "./components/features/JobCard";
 import { JobModal } from "./components/features/JobModal";
@@ -113,13 +116,43 @@ export default function App() {
           </div>
 
           {view === "contacts" && (
-            <div className="job-list">
-              {contacts.length === 0 ? (
-                <div className="empty-state">No contacts yet. Add one above.</div>
-              ) : (
-                contacts.map(c => <div key={c.id}>{c.name}</div>)
+            <>
+              <div className="search-row">
+                <button className="add-job-btn" onClick={() => setContactModal("add")}>
+                  + Add Contact
+                </button>
+              </div>
+
+              <div className="job-list">
+                {contacts.length === 0 ? (
+                  <div className="empty-state">No contacts yet. Add one above.</div>
+                ) : (
+                  contacts.map((c) => (
+                    <ContactCard
+                      key={c.id}
+                      contact={c}
+                      onEdit={setContactModal}
+                      onRemove={removeContact}
+                    />
+                  ))
+                )}
+              </div>
+
+              {contactModal && (
+                <ContactModal
+                  contact={contactModal === "add" ? null : (contactModal as Contact)}
+                  onSave={(form) => {
+                    if (contactModal !== "add") {
+                      updateContact((contactModal as Contact).id, form);
+                    } else {
+                      addContact(form);
+                    }
+                    setContactModal(null);
+                  }}
+                  onClose={() => setContactModal(null)}
+                />
               )}
-            </div>
+            </>
           )}
 
           {view === "jobs" && (

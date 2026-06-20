@@ -24,13 +24,13 @@ export interface StatusConfig {
   bg: string;
   label: string;
 }
+export type ContactType = 'Recruiter' | 'Referral' | 'Hiring Manager';
 
 export interface Contact {
   id: string;
-  userId: string;
   name: string;
   company: string;
-  type: 'Recruiter' | 'Referral' | 'Hiring Manager';
+  type: ContactType;
   email: string;
   linkedin: string;
   lastContact: string;

@@ -26,12 +26,13 @@ const FIELDS: {
   label: string;
   key: keyof JobFormData;
   placeholder: string;
+  type?: string;
 }[] = [
   { label: "Company", key: "company", placeholder: "e.g. Cursor" },
   { label: "Role", key: "role", placeholder: "e.g. Frontend Engineer" },
   { label: "URL", key: "url", placeholder: "Job posting link" },
   { label: "Prep URL", key: "prepUrl", placeholder: "Job Prep Document"},
-  { label: "Date Applied", key: "dateApplied", placeholder: "YYYY-MM-DD" },
+  { label: "Date Applied", key: "dateApplied", placeholder: "YYYY-MM-DD", type: "date" },
   { label: "Next Action", key: "nextAction", placeholder: "e.g. Send follow-up" },
 ];
 
@@ -70,10 +71,11 @@ export function JobModal({ job, onSave, onClose }: JobModalProps) {
           </button>
         </div>
 
-        {FIELDS.map(({ label, key, placeholder }) => (
+        {FIELDS.map(({ label, key, placeholder, type }) => (
           <div key={key} className="job-modal-field">
             <label className="job-modal-label">{label}</label>
             <input
+              type={type ?? "text"}
               className="job-modal-input"
               value={form[key] as string}
               onChange={(e) => setField(key, e.target.value)}

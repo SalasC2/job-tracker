@@ -86,12 +86,12 @@ export function useJobs() {
     else setJobs((prev) => prev.filter((j) => j.id !== id));
   };
 
-  const stats = {
-    total: jobs.length,
-    applied: jobs.filter((j) => !["Bookmarked", "Rejected"].includes(j.status)).length,
-    active: jobs.filter((j) => ["Phone Screen", "Technical", "Final"].includes(j.status)).length,
-    offers: jobs.filter((j) => j.status === "Offer").length,
-  };
+  // const stats = {
+  //   total: jobs.length,
+  //   applied: jobs.filter((j) => !["Bookmarked", "Rejected"].includes(j.status)).length,
+  //   active: jobs.filter((j) => ["Phone Screen", "Technical", "Final"].includes(j.status)).length,
+  //   offers: jobs.filter((j) => j.status === "Offer").length,
+  // };
 
   return { jobs, addJob, updateJob, removeJob };
 }

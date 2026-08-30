@@ -65,7 +65,8 @@ export function useContacts() {
       .select('*')
       .order('next_followup', { ascending: true, nullsFirst: false });
 
-    if (!error && data) setContacts(data.map(fromSnakeCase));
+    if (error) console.error(error);
+    else if (data) setContacts(data.map(fromSnakeCase));
     setLoading(false);
   }
 
@@ -75,7 +76,8 @@ export function useContacts() {
     const { error } = await supabase
       .from('contacts')
       .insert({ ...toSnakeCase(contact), user_id: user.id });
-    if (!error) fetchContacts();
+    if (error) console.error(error);
+    else fetchContacts();
   }
 
   async function updateContact(id: string, updates: Partial<Contact>) {
@@ -85,14 +87,16 @@ export function useContacts() {
       .from('contacts')
       .update(toSnakeCase(updates))
       .eq('id', id);
-    if (!error) fetchContacts();
+    if (error) console.error(error);
+    else fetchContacts();
   }
 
   async function removeContact(id: string) {
     if (!user) return;
 
     const { error } = await supabase.from('contacts').delete().eq('id', id);
-    if (!error) fetchContacts();
+    if (error) console.error(error);
+    else fetchContacts();
   }
 
   return { contacts, loading, addContact, updateContact, removeContact };

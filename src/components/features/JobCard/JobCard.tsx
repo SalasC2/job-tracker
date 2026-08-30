@@ -6,9 +6,10 @@ interface JobCardProps {
   job: Job;
   onEdit: (job: Job) => void;
   onRemove: (id: string) => void;
+  readOnly?: boolean;
 }
 
-export function JobCard({ job, onEdit, onRemove }: JobCardProps) {
+export function JobCard({ job, onEdit, onRemove, readOnly }: JobCardProps) {
   return (
     <div className="job-card">
       <div>
@@ -66,12 +67,21 @@ export function JobCard({ job, onEdit, onRemove }: JobCardProps) {
             ↗
           </a>
         )}
-        <button onClick={() => onEdit(job)} className="job-btn">
+        <button
+          onClick={() => onEdit(job)}
+          className="job-btn"
+          disabled={readOnly}
+          title={readOnly ? "Sign in to edit" : undefined}
+        >
           Edit
         </button>
         <button
-          onClick={() => onRemove(job.id)}
+          onClick={() => {
+            if (window.confirm(`Delete ${job.company}?`)) onRemove(job.id);
+          }}
           className="job-btn job-btn-danger"
+          disabled={readOnly}
+          title={readOnly ? "Sign in to delete" : undefined}
         >
           ×
         </button>

@@ -6,9 +6,10 @@ interface ContactCardProps {
   contact: Contact;
   onEdit: (contact: Contact) => void;
   onRemove: (id: string) => void;
+  readOnly?: boolean;
 }
 
-export function ContactCard({ contact, onEdit, onRemove }: ContactCardProps) {
+export function ContactCard({ contact, onEdit, onRemove, readOnly }: ContactCardProps) {
   return (
     <div className="job-card">
       <div>
@@ -51,12 +52,21 @@ export function ContactCard({ contact, onEdit, onRemove }: ContactCardProps) {
             LinkedIn ↗
           </a>
         )}
-        <button onClick={() => onEdit(contact)} className="job-btn">
+        <button
+          onClick={() => onEdit(contact)}
+          className="job-btn"
+          disabled={readOnly}
+          title={readOnly ? "Sign in to edit" : undefined}
+        >
           Edit
         </button>
         <button
-          onClick={() => onRemove(contact.id)}
+          onClick={() => {
+            if (window.confirm(`Delete ${contact.name}?`)) onRemove(contact.id);
+          }}
           className="job-btn job-btn-danger"
+          disabled={readOnly}
+          title={readOnly ? "Sign in to delete" : undefined}
         >
           ×
         </button>

@@ -94,6 +94,11 @@
   color: var(--badge-red);
 }
 
+.job-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .job-prep-link {
   font-size: 10px;
   color: var(--accent);
@@ -103,4 +108,18 @@
   padding: 2px 7px;
   text-decoration: none;
   font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .job-card {
+    grid-template-columns: 1fr;
+  }
+
+  .job-card-header {
+    flex-wrap: wrap;
+  }
+
+  .job-card-actions {
+    justify-content: flex-end;
+  }
 }

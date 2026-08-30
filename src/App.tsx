@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { useJobs } from "./hooks/useJobs";
 import { useAuthUser } from "./hooks/useAuthUser";
@@ -37,6 +37,13 @@ export default function App() {
   const [modal, setModal] = useState<null | "add" | Job>(null);
 
   const user = useAuthUser();
+
+  useEffect(() => {
+    document.body.style.overflow = modal || contactModal ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [modal, contactModal]);
 
   const activeJobs = isDemoMode ? INITIAL_JOBS : jobs;
 
@@ -118,7 +125,12 @@ export default function App() {
           {view === "contacts" && (
             <>
               <div className="search-row">
-                <button className="add-job-btn" onClick={() => setContactModal("add")}>
+                <button
+                  className="add-job-btn"
+                  onClick={() => setContactModal("add")}
+                  disabled={isDemoMode}
+                  title={isDemoMode ? "Sign in to add contacts" : undefined}
+                >
                   + Add Contact
                 </button>
               </div>
@@ -133,6 +145,7 @@ export default function App() {
                       contact={c}
                       onEdit={setContactModal}
                       onRemove={removeContact}
+                      readOnly={isDemoMode}
                     />
                   ))
                 )}
@@ -167,6 +180,8 @@ export default function App() {
                 <button
                   className="add-job-btn"
                   onClick={() => setModal("add")}
+                  disabled={isDemoMode}
+                  title={isDemoMode ? "Sign in to add jobs" : undefined}
                 >
                   + Add Job
                 </button>
@@ -186,6 +201,7 @@ export default function App() {
                       job={job}
                       onEdit={setModal}
                       onRemove={removeJob}
+                      readOnly={isDemoMode}
                     />
                   ))
                 )}

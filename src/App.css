@@ -85,6 +85,11 @@
   opacity: 0.85;
 }
 
+.add-job-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .job-list {
   display: flex;
   flex-direction: column;

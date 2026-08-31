@@ -21,9 +21,6 @@ export const Navbar = ({ user }: NavbarProps) => {
             <div className="navbar-left">
                 <img className="jobtracker-logo" src={jobTrackerIcon} />
                 <span className="navbar-brand">Job Tracker</span>
-                <span className="navbar-subtitle">Series A/B · React/JS · SF or Remote</span>
-            </div>
-            <div className="navbar-right">
                 <button
                     className="navbar-theme-btn"
                     onClick={toggle}
@@ -32,6 +29,9 @@ export const Navbar = ({ user }: NavbarProps) => {
                 >
                     {theme === "dark" ? "☀" : "◑"}
                 </button>
+                <span className="navbar-subtitle">Series A/B · React/JS · SF or Remote</span>
+            </div>
+            <div className="navbar-right">
                 {user ? (
                     <>
                         <img src={userAvatar} alt="user-avatar" className="user-avatar" />

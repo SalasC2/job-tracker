@@ -82,15 +82,39 @@ p {
 }
 
 @media (max-width: 640px) {
+    .navbar {
+        padding: 10px 16px;
+    }
+
     .navbar-subtitle {
         display: none;
     }
 
     .jobtracker-logo {
-        height: 48px;
+        height: 36px;
     }
 
     .navbar-brand {
-        font-size: 18px;
+        font-size: 16px;
+    }
+
+    .navbar-right {
+        gap: 8px;
+    }
+
+    .navbar-theme-btn,
+    .user-avatar {
+        width: 28px;
+        height: 28px;
+    }
+
+    .navbar-theme-btn {
+        font-size: 13px;
+    }
+
+    .navbar-right .btn {
+        padding: 6px 10px;
+        font-size: 12px;
+        white-space: nowrap;
     }
 }
